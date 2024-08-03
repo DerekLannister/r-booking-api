@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Restaurant Reservation API
+  version: 1.0.0
+  description: API for managing restaurant reservations
+paths:
+  /api/restaurants/available:
+    get:
+      operationId: getAvailableRestaurants
+      summary: Find available restaurants
+      parameters:
+        - in: query
+          name: dinerIds
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+          description: Array of diner IDs
+        - in: query
+          name: time
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: Desired reservation time
+      responses:
+        '200':
+          description: List of available restaurants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+        '400':
+          description: Missing required parameters
+        '500':
+          description: Server error
+  /api/reservations:
+    post:
+      operationId: createReservation
+      summary: Create a reservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationInput'
+      responses:
+        '201':
+          description: Reservation created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '400':
+          description: Missing required parameters or no available table
+        '500':
+          description: Server error
+  /api/reservations/{reservationId}:
+    delete:
+      operationId: deleteReservation
+      summary: Delete a reservation
+      parameters:
+        - in: path
+          name: reservationId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Reservation deleted
+        '404':
+          description: Reservation not found
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    Restaurant:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        endorsements:
+          type: array
+          items:
+            type: string
+    ReservationInput:
+      type: object
+      required:
+        - restaurantId
+        - dinerIds
+        - time
+      properties:
+        restaurantId:
+          type: string
+        dinerIds:
+          type: array
+          items:
+            type: string
+        time:
+          type: string
+          format: date-time
+        restaurantName:
+          type: string
+    Reservation:
+      type: object
+      properties:
+        id:
+          type: string
+        restaurantId:
+          type: string
+        restaurantName:
+          type: string
+        tableTopId:
+          type: string
+        dinerIds:
+          type: array
+          items:
+            type: string
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time

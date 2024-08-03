@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+      "target": "ES2018",
+      "module": "commonjs",
+      "lib": ["es2018", "esnext.asynciterable", "dom"],
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "strict": true,
+      "noImplicitAny": true,
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "forceConsistentCasingInFileNames": true,
+      "allowSyntheticDefaultImports": true,
+      "pretty": true,
+      "removeComments": true,
+      "typeRoots": [
+        "node_modules/@types"
+      ]
+    },
+    "include": [
+    "src/**/*",
+    "src/jest.setup.ts"
+  ],
+    "exclude": [
+      "node_modules",
+      "**/*.spec.ts","src/**/*.test.ts", "src/**/*.spec.ts"
+    ]
+  }
